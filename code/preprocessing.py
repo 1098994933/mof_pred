@@ -86,7 +86,7 @@ def preprocess_step1():
     df_f.to_csv('../data/finger_train_f2.csv', index=False)
 
     # generate features for test set
-    test_dataset = pd.read_csv(config['test_data'])
+    test_dataset = pd.read_csv(config['test_data_finger'])
     test_fps = [RDKFingerprint(MolFromSmiles(mol)) for mol in test_dataset.linker1smi]
     test_fps_binary = [mol.ToList() for mol in test_fps]
 
@@ -133,7 +133,9 @@ def preprocess_step3():
     """
     cal magpie features for molecular
     """
-    for data in ['train', 'test']:
+
+    # train magpie features
+    for data in ['train']:
         dataset = pd.read_csv(f"../data/finger_{data}.csv")
         # calculate formula
         formulas = [CalcMolFormula(MolFromSmiles(smile)) for smile in dataset.linker1smi]
@@ -169,6 +171,20 @@ def preprocess_step3():
         # df_magpie = feature_calculators.featurize_dataframe(df_magpie, col_id='composition_obj');
         # df_magpie.to_csv(data_path + 'test_formula_magpie_features.csv', index=False)
 
+    dataset = pd.read_csv(config['test_data_finger'])
+    data = 'test'
+    # calculate formula
+    formulas = [CalcMolFormula(MolFromSmiles(smile)) for smile in dataset.linker1smi]
+    formulas_process = []
+    for formula in formulas:
+        if '-' in formula:
+            print(formula)
+            formulas_process.append(formula.split("-")[0])
+        else:
+            formulas_process.append(formula)
+
+    df = pd.DataFrame({"formula": formulas_process})
+    df.to_csv(f"../data/{data}_formula.csv", index=False)
 
 def preprocess_step4():
     """

@@ -1,0 +1,10 @@
+matminer
+pandas==1.4.4
+mordred==1.2.0
+mol2vec @ git+https://github.com/samoturk/mol2vec@850d944d5f48a58e26ed0264332b5741f72555aa
+numpy==1.23.3
+shap==0.39.0
+matplotlib==3.6.0
+scikit-learn==1.1.2
+scipy==1.9.1
+seaborn @ file:///tmp/build/80754af9/seaborn_1608578541026/work
